@@ -84,6 +84,7 @@ sleep(0.5)
 async def install_packages_async(outputWrite=False):
     if installPackage("pip",True) is not True: 
         print("\n\n\npip yüklenemedi")
+        pack_all.remove("pip")
         return
     sleep(1)
     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
