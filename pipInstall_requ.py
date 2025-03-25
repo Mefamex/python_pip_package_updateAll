@@ -59,6 +59,7 @@ def installPackage(packageName, outputWrite=True):
     except Exception as e:
         print(f"Hata oluştu {packIndex} - {packageName} paketini yüklerken: {str(e)}")
         pack_warned.append(packageName)
+        return False
 
 
 
@@ -73,7 +74,7 @@ for q in allLines:
     if q not in pack_all and q != "": 
         pack_all.append(q)
         print(f"---{q.ljust(20, '-')}")
-        sleep(0.05)
+        sleep(0.03)
 
 print(f"\n\n\nToplam paketler : {len(pack_all)}\n\n")
 
@@ -81,6 +82,10 @@ sleep(0.5)
 
 
 async def install_packages_async(outputWrite=False):
+    if installPackage("pip",True) is not True: 
+        print("\n\n\npip yüklenemedi")
+        return
+    sleep(1)
     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
         loop = asyncio.get_event_loop()
         tasks = [ loop.run_in_executor(executor, installPackage, package, outputWrite) for package in pack_all ]
